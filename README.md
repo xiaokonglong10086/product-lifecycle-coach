@@ -1,117 +1,95 @@
-# Product Lifecycle Coach
+# 产品教练（Product Coach Router）
 
-面向独立产品经理、初创公司产品负责人和 AI 产品建设者的全生命周期 ChatGPT Skill。
+这是面向完整产品开发生命周期的 ChatGPT Skill。用户只安装一个入口：`product-coach-router`，中文显示名为“产品教练”。
 
-它不是一个“自动写 PRD”模板，而是一套从调研、需求确认、方案构建、产品功能定义、AI 功能规格、Codex 开发、QA、客户试点到生产交接的工作流。核心目标是：**完成真实产品工作，同时避免 AI 擅自改需求、堆砌术语或生成难以阅读的万能文档。**
+它负责根据当前任务读取项目事实库、判断所处阶段、选择对应专业模块，并完成从需求发现到试点上线的真实产品工作。总控只负责路由、权威管理与交接检查，不用摘要替代专业产物。
 
-> 当前版本：v0.7.0  
-> 主要语言：中文  
-> 许可：MIT
+## 当前能力
 
-## 适合谁
+- 客户会议、用户访谈、需求发现与产品方向判断
+- 长期产品设计理念的提炼、冲突检查与确认后维护
+- 唯一正式产品功能 PRD
+- 产品工程规格与 AI 功能规格
+- 全功能产品设计验证与 Codex 开发包
+- L3 主功能、L4 关键跨端闭环与隐藏产品实验室
+- 实现 QA、反馈分类、产品迭代、客户试点与上线准备
+- 产品经理学习日志与关键判断复盘
 
-- 初创公司唯一或主要产品经理
-- 正在学习产品方法、但需要直接完成真实工作的产品新人
-- 使用 ChatGPT、Codex 或其他 AI 工具完成原型和部分开发的人
-- 正在建设 AI 产品、企业软件、内部工具或复杂数字产品的人
+## 核心原则
 
-## 核心能力
+1. 用户本轮明确决定优先，未经确认不得修改产品事实。
+2. 先读取已有资料、设计理念、决定和当前实现，再提出问题或生成新文档。
+3. PRD、工程规格、AI 规格、模拟数据和 QA 各自负责自己的内容，不互相越权。
+4. 功能验证不是静态 Demo：用户可见行为必须真实可操作，底层服务才允许模拟。
+5. 所有主功能至少达到 L3，关键跨端闭环达到 L4，并覆盖加载、空、失败、取消、重试、撤销和刷新恢复。
+6. 完成声明必须有真实文件、命令、构建、审查或运行证据。
+7. 公开仓库只保存通用规则、模板、脚本和虚构示例，不保存真实客户资料或完整私有 PRD。
 
-- 调研、用户访谈和证据整理
-- 产品方向与需求确认
-- 方案比较、MVP 和客户试点设计
-- 可读、完整、不会擅自改功能的产品功能 PRD
-- 用户流程、完整产品流程和产品内部运作逻辑
-- AI 功能卡、Agent 工作流和质量评估
-- Codex 小步开发任务与构建验收
-- QA、发布、回滚和版本复盘
-- 判断哪些工作由产品经理、Codex 或外包工程师承担
+## 仓库中的正式 Skill
 
-## 设计原则
+```text
+product-coach-suite/
+└─ product-coach-router/
+   ├─ SKILL.md
+   ├─ agents/openai.yaml
+   ├─ references/
+   │  ├─ shared/       # 权威、职责、保留、交接与输出规范
+   │  ├─ subskills/    # 六个生命周期专业模块
+   │  ├─ modules/      # 工程、AI、模拟数据、文档交付模块
+   │  └─ preserved/    # 已验证的 PRD、功能验证与 QA 核心资产
+   ├─ assets/
+   │  ├─ templates/    # PRD、Codex、QA、迭代与项目事实库模板
+   │  └─ project-state-templates/
+   ├─ scripts/         # 结构、PRD、保留资产和开发任务审查
+   └─ tests/
+```
 
-1. **语义冻结**：已有产品规则被确认后，改格式或补文档不得偷偷改功能。
-2. **删除废话，不删除细节**：简洁指高信息密度，不是把复杂功能压成一句话。
-3. **产品文档与工程文档分开**：PRD 负责把产品说清楚；API、数据库、幂等和部署进入工程规格。
-4. **用户流程与内部逻辑都要有**：既说明用户如何使用，也说明任务队列、AI、审核和写入如何协同。
-5. **按风险决定严谨度**：原型不堆流程，高风险 AI、敏感数据和生产系统必须提高规格与验证要求。
-6. **工作与成长同步**：Skill 直接交付结果，同时给出一条可复用的产品判断方法。
+根目录不再保留旧版 `product-lifecycle-coach` Skill。历史内容仍可通过 Git 记录查看，但不再作为当前运行入口。
 
 ## 安装
 
-1. 下载 [`dist/skill.zip`](dist/skill.zip)。
-2. 打开支持 Skills 的 ChatGPT Skills 页面（`/skills`）。
-3. 上传 `skill.zip`。
-4. 在产品项目说明中加入：涉及调研、需求、PRD、Codex、QA、试点或上线时，默认优先使用 Product Lifecycle Coach。
+1. 打开仓库的 **Actions**。
+2. 进入 **Build Product Coach Skill** 的最新成功运行。
+3. 下载 `product-coach-skill-installable` 构建工件。
+4. 将下载的 ZIP 上传到 ChatGPT 的 `/skills` 页面。
+5. 安装后使用“调用产品教练”或直接提出调研、PRD、功能验证、QA、迭代、试点等任务。
+
+Skill 的正式名称必须显示为：
+
+```yaml
+name: product-coach-router
+```
 
 ## 使用示例
 
 ```text
-整理这次客户访谈，区分事实、观点、决定和待确认问题，并告诉我下一步做什么。
+调用产品教练。整理这次客户会议，区分事实、观点、诉求、决定和待确认问题，并判断是否已经可以进入产品设计。
 ```
 
 ```text
-基于我已经确认的产品设计补全 PRD。不得改动页面布局、字段、交互、AI 规则和数据去向。
+调用产品教练。基于当前权威资料生成唯一正式产品功能 PRD，不得修改已经确认的页面、字段、流程、AI 规则和数据去向。
 ```
 
 ```text
-把这个功能拆成一个 Codex 可以完成的小步任务，并给出禁止项、验证命令和验收路径。
+调用产品教练。基于主 PRD 和当前代码生成全功能设计验证开发包，主功能达到 L3，关键跨端闭环达到 L4，并建立可复现的产品实验室。
 ```
 
 ```text
-审查当前 Demo，判断它是可交互 Demo、内部可用版还是客户试点版，还缺什么证据。
+调用产品教练。实际运行并验收当前项目，区分产品问题、实现缺陷、体验问题和生产能力差距。
 ```
 
-## 仓库结构
-
-```text
-product-lifecycle-coach/
-├─ SKILL.md
-├─ agents/openai.yaml
-├─ references/          # 按任务逐步加载的方法与规则
-├─ assets/templates/    # PRD、AI、Codex、QA、试点等模板
-├─ assets/examples/     # 脱敏的正向示例
-└─ scripts/             # 文档与任务审查脚本
-```
-
-## 验证
+## 本地验证
 
 ```bash
-python product-lifecycle-coach/scripts/self_test.py
-python -m compileall product-lifecycle-coach/scripts
+python product-coach-suite/product-coach-router/scripts/validate_skill.py product-coach-suite/product-coach-router
+python product-coach-suite/product-coach-router/scripts/self_test.py
+python product-coach-suite/product-coach-router/scripts/package_skill.py
 ```
 
-## PRD 输出特点
+## 隐私与公开边界
 
-该 Skill 生成的主 PRD 重点回答：
+本仓库不会上传完整“小阿平台 PRD”或其他真实项目文档。PRD 质量通过通用质量规约、虚构正反例、审查脚本和可选的私有临时校准实现。临时提供的私有样本只用于当轮校准，不自动写回公开仓库，也不定义未来质量上限。
 
-- 产品解决什么问题；
-- 产品由哪些页面和功能组成；
-- 用户如何完成主要任务；
-- 产品内部如何运作；
-- 每项功能具体展示什么、如何操作、如何反馈；
-- 状态、异常、数据去向和验收结果是什么；
-- AI 可以做什么、不能做什么、由谁确认。
+## 许可
 
-主 PRD 不应被 UUID、数据库表、接口字段、版本修复过程和工程术语淹没。这些内容会进入独立的工程规格、AI 规格和 QA 文档。
-
-## 公开版本与私有项目
-
-仓库只包含通用方法、模板、脚本和虚构示例，不包含真实客户资料、公司内部 PRD、会议记录、代码包或个人信息。使用时请自行检查输入材料的保密要求。
-
-## 来源与致谢
-
-本项目是原创整合，并受到 BMAD Method、GitHub Spec Kit、OpenSpec、Superpowers、Agent OS、Vibe Coding Prompt Template 等公开项目的启发。详见 [`NOTICE.md`](NOTICE.md)。本项目与这些项目及 OpenAI 均无隶属或官方合作关系。
-
-## 贡献
-
-欢迎提交 Issue 或 Pull Request，尤其欢迎以下反馈：
-
-- Skill 在真实产品任务中的跑偏案例
-- PRD 误改需求或丢失细节的案例
-- AI 产品评估与降级机制
-- Codex 开发任务与 QA 回归改进
-- 面向独立产品经理的更易懂表达
-
-## 免责声明
-
-该 Skill 提供产品管理和交付辅助，不替代法律、安全、隐私、财务或生产工程专业审查。涉及敏感数据、多租户隔离、正式数据库、权限、安全、部署和灾备时，应由具备责任能力的工程人员复核。
+MIT License。详见 `LICENSE`。
