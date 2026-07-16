@@ -1,0 +1,38 @@
+name: Build Product Coach Skill
+on:
+  pull_request:
+    paths:
+      - 'product-coach-suite/**'
+      - '.github/workflows/build-product-coach-skill.yml'
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install test dependencies
+        run: pip install pyyaml python-docx pillow
+      - name: Validate skill structure
+        run: python product-coach-suite/product-coach-router/scripts/validate_skill.py product-coach-suite/product-coach-router
+      - name: Compile all scripts
+        run: python -m compileall -q product-coach-suite/product-coach-router/scripts
+      - name: Audit preserved assets
+        run: python product-coach-suite/product-coach-router/scripts/audit_preservation.py product-coach-suite/product-coach-router
+      - name: Audit design principles fixture
+        run: python product-coach-suite/product-coach-router/scripts/audit_design_principles.py product-coach-suite/product-coach-router/tests/good-design-principles.md --strict
+      - name: Audit Codex validation task template
+        run: python product-coach-suite/product-coach-router/scripts/audit_design_validation_task.py product-coach-suite/product-coach-router/assets/templates/CODEX_MASTER_TASK.md --strict
+      - name: Run integrated self test
+        run: python product-coach-suite/product-coach-router/scripts/self_test.py
+      - name: Package validation copy
+        run: python product-coach-suite/product-coach-router/scripts/package_skill.py
+      - name: Upload directly installable skill archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: product-coach-skill-installable
+          path: product-coach-suite/product-coach-router/
+          if-no-files-found: error
+          include-hidden-files: true
