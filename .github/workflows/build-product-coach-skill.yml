@@ -13,11 +13,24 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: pip install pyyaml python-docx pillow
-      - run: python product-coach-suite/product-coach-router/scripts/validate_skill.py product-coach-suite/product-coach-router
-      - run: python product-coach-suite/product-coach-router/scripts/self_test.py
-      - run: python product-coach-suite/product-coach-router/scripts/package_skill.py
+      - name: Install test dependencies
+        run: pip install pyyaml python-docx pillow
+      - name: Validate skill structure
+        run: python product-coach-suite/product-coach-router/scripts/validate_skill.py product-coach-suite/product-coach-router
+      - name: Compile all scripts
+        run: python -m compileall -q product-coach-suite/product-coach-router/scripts
+      - name: Audit preserved assets
+        run: python product-coach-suite/product-coach-router/scripts/audit_preservation.py product-coach-suite/product-coach-router
+      - name: Audit design principles fixture
+        run: python product-coach-suite/product-coach-router/scripts/audit_design_principles.py product-coach-suite/product-coach-router/tests/good-design-principles.md --strict
+      - name: Audit Codex validation task template
+        run: python product-coach-suite/product-coach-router/scripts/audit_design_validation_task.py product-coach-suite/product-coach-router/assets/templates/CODEX_MASTER_TASK.md --strict
+      - name: Run integrated self test
+        run: python product-coach-suite/product-coach-router/scripts/self_test.py
+      - name: Package skill
+        run: python product-coach-suite/product-coach-router/scripts/package_skill.py
       - uses: actions/upload-artifact@v4
         with:
           name: product-coach-skill
           path: product-coach-suite/dist/skill.zip
+          if-no-files-found: error
