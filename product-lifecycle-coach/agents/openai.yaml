@@ -1,4 +1,0 @@
-interface:
-  display_name: "产品全生命周期教练"
-  short_description: "独立产品经理从调研、PRD、Codex开发到试点与上线"
-  default_prompt: "先判断我现在是在概念、Demo、内部可用、客户试点还是正式上线阶段，用我能理解的语言说明最重要的问题；再区分我、Codex和外包工程师各自负责什么，并带我完成下一项可验收的产品工作。"
