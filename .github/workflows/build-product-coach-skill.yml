@@ -27,10 +27,12 @@ jobs:
         run: python product-coach-suite/product-coach-router/scripts/audit_design_validation_task.py product-coach-suite/product-coach-router/assets/templates/CODEX_MASTER_TASK.md --strict
       - name: Run integrated self test
         run: python product-coach-suite/product-coach-router/scripts/self_test.py
-      - name: Package skill
+      - name: Package validation copy
         run: python product-coach-suite/product-coach-router/scripts/package_skill.py
-      - uses: actions/upload-artifact@v4
+      - name: Upload directly installable skill archive
+        uses: actions/upload-artifact@v4
         with:
-          name: product-coach-skill
-          path: product-coach-suite/dist/skill.zip
+          name: product-coach-skill-installable
+          path: product-coach-suite/product-coach-router/
           if-no-files-found: error
+          include-hidden-files: true
